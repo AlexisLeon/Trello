@@ -7,13 +7,20 @@
 //
 
 import Cocoa
+import WebKit
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, WebFrameLoadDelegate {
+
+    @IBOutlet weak var webView: WebView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.webView.frameLoadDelegate = self
+        self.progressIndicator.startAnimation(self)
 
-        // Do any additional setup after loading the view.
+        let url = "https://trello.com"
+        self.webView.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: url)!))
     }
 
     override var representedObject: AnyObject? {
@@ -21,7 +28,22 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
+    
+    func webView(sender: WebView!, didStartProvisionalLoadForFrame frame: WebFrame!)
+    {
+        self.progressIndicator.startAnimation(self)
+        self.progressIndicator.hidden = false
+    }
 
-
+    func webView(sender: WebView!, didFinishLoadForFrame frame: WebFrame!)
+    {
+        self.progressIndicator.stopAnimation(self)
+        self.progressIndicator.hidden = true
+    }
+    
+    @IBAction func goHelp(sender: AnyObject){
+        let url = NSURL(string: "http://help.trello.com")
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
 }
 
