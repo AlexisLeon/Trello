@@ -1,4 +1,4 @@
-# Trello-for-Mac
+# Trello for Mac
 A native Mac app wrapper for Trello
 
 ![screen shot](https://raw.githubusercontent.com/AlexLeonVader/Trello-for-Mac/master/Screen%20Shot.png)
